@@ -1,0 +1,1 @@
+%userprofile%\AppData\Roaming\Python\Python39\Scripts\pipenv install flask Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy
