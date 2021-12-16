@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
+CORS(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "app.sqlite")
 
@@ -17,12 +18,12 @@ class Movie(db.Model):
     genre = db.Column(db.String,nullable=False)
     mpaa_rating = db.Column(db.String)
     poster_img = db.Column(db.String,unique=True)
-    all_reviews = db.relationship('Review', backref='movie', cascade='all,delete,delete-orphan')
+    # all_reviews = db.relationship('Review', backref='movie', cascade='all,delete,delete-orphan')
 
     def __init__(self, title, genre, mpaa_rating, poster_img):
         self.title = title
         self.genre = genre
-        self.mpss_rating = mpaa_rating
+        self.mpaa_rating = mpaa_rating
         self.poster_img = poster_img
         
 class Review(db.Model):
@@ -46,7 +47,7 @@ multi_review_schema = ReviewSchema(many=True)
 
 class MovieSchema(ma.Schema):
     class Meta:
-        fields = ('id','title','genre','mpaa-rating','poster_img', 'all_reviews')
+        fields = ('id','title','genre','mpaa_rating','poster_img', 'all_reviews')
     
 movie_schema = MovieSchema()
 multi_movie_schema = MovieSchema(many=True)
